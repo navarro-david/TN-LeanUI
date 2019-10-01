@@ -1,0 +1,6 @@
+{
+    "name": {
+        "ui:autofocus": true,
+        "ui:emptyValue": "Organization Name"
+    }
+}
