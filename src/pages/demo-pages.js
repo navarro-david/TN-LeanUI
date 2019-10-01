@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Form from "react-jsonschema-form";
+import Button from '@material-ui/core/Button';
 
 import OrgGrid from '../components/OrganizationGrid'
+import { flexbox } from "@material-ui/system";
 
 // import schema from '../jsonUI/organization/organization';
 
@@ -40,12 +42,17 @@ export const Index = () => {
 
     return (
         <div>
-            <h1>Index</h1>
-            <p>Demo of react-router-dom</p>
-            <p>
-                Enter <code>http://localhost:3000/organization</code> into URL
-            </p>
+            <h1>Organizations</h1>
+            <p>Modify or add new Organizations</p>
             <OrgGrid data={data} />
+            <div style={{
+                display: 'flex',
+                width: '100%',
+                flexDirection: 'row-reverse',
+                padding: '1rem'
+            }}>
+                <Button>Add Organization</Button>
+            </div>
         </div>
     );
 };
