@@ -57,18 +57,14 @@ export const Index = () => {
     );
 };
 
-export const Organization = () => {
+export const EditOrganization = () => {
     const handleOnSubmit = type => {
         console.log("Place API call here to push submitted data", type);
     };
 
     return (
         <div>
-            <h1>Organization</h1>
-            <p>
-                Great! Now if you go to <code>http://localhost:3000</code>, you
-                should see the index page again
-            </p>
+            <h1>Edit</h1>
             <Form
                 schema={JSONschema}
                 uiSchema={UIschema}
