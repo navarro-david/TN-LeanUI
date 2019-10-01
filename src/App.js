@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import Form from "react-jsonschema-form";
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const schema = require('./json/JSONschema.json')
+import * as Page from './pages/demo-pages'
 
-const log = (type) => console.log.bind(console, type);
+import "./App.css";
 
-const handleOnSubmit = () => {
-  log('Place API call here to push submitted data')
-}
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Form schema={schema}
-          onSubmit={() => this.handleOnSubmit()}
-        />
-      </header>
-    </div>
-  );
-}
+
+const App = () => {
+    
+
+    return (
+      <Router>
+        <div className="App">
+            <header className="App-header">
+                <div>
+                    <Switch>
+                        <Route path="/" exact component={Page.Index} />
+                        <Route
+                            path="/organization"
+                            component={Page.Organization}
+                        />
+                    </Switch>
+                </div>
+                {/* <Form
+                    schema={JSONschema}
+                    uiSchema={UIschema}
+                    onSubmit={type => handleOnSubmit(type)}
+                /> */}
+            </header>
+        </div>
+      </Router>
+    );
+};
 
 export default App;
