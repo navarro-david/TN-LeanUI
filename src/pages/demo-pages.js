@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from 'react-router-dom';
 import Form from "react-jsonschema-form";
 import Button from '@material-ui/core/Button';
 
@@ -10,7 +11,9 @@ import { flexbox } from "@material-ui/system";
 const JSONschema = require("../jsonUI/organization/JSONSchema.json");
 const UIschema = require("../json/UIschema.json");
 
-export const Index = () => {
+const AddOrgSchema = require('../jsonUI/organization/AddOrgSchema.json')
+
+export const Index = withRouter(({ history }) => {
     const data = [
         {
             name: "ACME Fleet",
@@ -51,11 +54,15 @@ export const Index = () => {
                 flexDirection: 'row-reverse',
                 padding: '1rem'
             }}>
-                <Button>Add Organization</Button>
+                <Button
+                    onClick={() => history.push('/add-organization')}
+                >
+                    Add Organization
+                </Button>
             </div>
         </div>
     );
-};
+})
 
 export const EditOrganization = () => {
     const handleOnSubmit = type => {
@@ -67,6 +74,23 @@ export const EditOrganization = () => {
             <h1>Edit</h1>
             <Form
                 schema={JSONschema}
+                uiSchema={UIschema}
+                onSubmit={type => handleOnSubmit(type)}
+            />
+        </div>
+    );
+};
+
+export const AddOrganization = () => {
+    const handleOnSubmit = type => {
+        console.log("Place API call here to push submitted data", type);
+    };
+
+    return (
+        <div>
+            <h1>Edit</h1>
+            <Form
+                schema={AddOrgSchema}
                 uiSchema={UIschema}
                 onSubmit={type => handleOnSubmit(type)}
             />

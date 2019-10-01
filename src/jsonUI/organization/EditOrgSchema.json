@@ -1,0 +1,76 @@
+{
+    "title": "Edit Organization",
+    "description": "Edit an Organization.",
+    "type": "object",
+    "required": [
+      "name",
+      "description",
+      "sapId",
+      "salesforceId",
+      "address"
+    ],
+    "properties": {
+      "name": {
+        "type": "string",
+        "title": "Name"
+      },
+      "description": {
+        "type": "string",
+        "title": "Description"
+      },
+      "sapId": {
+        "type": "string",
+        "title": "SAP Id"
+      },
+      "salesforceId": {
+        "type": "string",
+        "title": "Salesforce Id"
+      },
+      "address": {
+        "type": "object",
+        "title": "Primary Address",
+        "properties": {
+          "addressLine1": {
+            "type": "string",
+            "title": "Address Line 1"
+          },
+          "addressLine2": {
+            "type": "string",
+            "title": "Address Line 2"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          }
+        },
+        "required": [
+            "addressLine1",
+            "addressLine2",
+            "city",
+            "state"
+          ]
+      },
+      "contact":{
+        "type":"object",
+        "title": "Primary Contact",
+        "properties":{
+          "firstName": {
+            "type": "string",
+            "title": "First name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Last name"
+          }
+        }
+      }  
+    }
+  }
