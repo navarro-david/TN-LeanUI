@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Form from "react-jsonschema-form";
-import Grid from "react-json-grid";
+
+import OrgGrid from '../components/OrganizationGrid'
+
 // import schema from '../jsonUI/organization/organization';
 
 const JSONschema = require("../jsonUI/organization/JSONSchema.json");
@@ -33,7 +35,7 @@ export const Index = () => {
                 state: "CA",
                 country: "USA"
             }
-        }
+        },
     ];
 
     return (
@@ -43,7 +45,7 @@ export const Index = () => {
             <p>
                 Enter <code>http://localhost:3000/organization</code> into URL
             </p>
-            <Grid data={data} style={{ color: "black", width: "100%" }} />
+            <OrgGrid data={data} />
         </div>
     );
 };
