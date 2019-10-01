@@ -1,15 +1,36 @@
 import React, { useState } from "react";
 import Form from "react-jsonschema-form";
+import Grid from 'react-json-grid';
+// import schema from '../jsonUI/organization/organization';
 
 const JSONschema = require("../json/JSONschema.json");
 const UIschema = require("../json/UIschema.json");
 
 export const Index = () => {
+
+    const data = [
+        { 
+            name: 'hello', 
+            description: 'world',
+            sapID: '100',
+            salesforceID: '200',
+            administrators: ['admin1', 'admin2'],
+            active: true,
+            fleets: 'fleet1',
+
+        },
+        
+    ];
+
     return (
         <div>
             <h1>Index</h1>
             <p>Demo of react-router-dom</p>
             <p>Enter <code>http://localhost:3000/organization</code> into URL</p>
+            <Grid 
+                data={data}
+                style={{color: 'black', width: '100%'}}
+            />
         </div>
     );
 };
