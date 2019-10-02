@@ -94,17 +94,32 @@ export const EditOrganization = ({match, location}, props) => {
     const [isSending, setIsSending] = useState(false);
 
     async function fetchDataFromUrl() {
-        if(loading) return;
         console.log("fetchDataFromUrl Called");
-        setLoading(true)
         const response = await fetch(geturl);
         const json = await response.json();
-        setData(json);
+        setData(json)
         setLoading(false);
     }
 
     useEffect(() => {
         fetchDataFromUrl();
+        // Just a test since I (David) can't connect to server
+        // const json = {//TODO: get data from form
+        //     organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
+        //     name: "ACME Fleet 3",
+        //     description: "ACME's Fleet",
+        //     sapId: "SAP2323455",
+        //     salesforceId: "SFID344",
+        //     address: {
+        //         addressLine1: "244 Acme Dr",
+        //         addressLine2: "Suite 3",
+        //         city: "Pleasanton",
+        //         state: "CA",
+        //         country: "USA"
+        //     }
+        // }
+        // setData(json);
+        // console.log('formData', formData)
     }, []);
 
     // Place API call to add to API here
@@ -136,7 +151,7 @@ export const EditOrganization = ({match, location}, props) => {
 
     return (
         <div>
-            <h1>Edit {orgName}</h1>
+            <h1>{orgName}</h1>
             <Form
                 schema={EditOrgSchema}
                 uiSchema={UIschema}
