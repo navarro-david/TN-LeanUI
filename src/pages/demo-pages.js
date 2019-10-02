@@ -35,6 +35,7 @@ export const Index = withRouter(({ history }) => {
         {
             name: "ACME Fleet",
             description: "ACME's Fleet",
+            id: 'fleet001',
             sapId: "SAP2323455",
             salesforceId: "SFID344",
             address: {
@@ -48,6 +49,7 @@ export const Index = withRouter(({ history }) => {
         {
             name: "Marvel Fleet 2",
             description: "Marvel's Fleet",
+            id: 'fleet002',
             sapId: "SAP223433455",
             salesforceId: "SFID344533",
             address: {
@@ -81,10 +83,10 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match}) => {
+export const EditOrganization = ({match, location}) => {
     const orgName = match.params.orgName;
-
-    console.log('test', orgName)
+    const orgId = location.state.id ? location.state.id : null;
+    console.log('test', location)
     const [isSending, setIsSending] = useState(false)
 
     // Place API call to add to API here
@@ -104,6 +106,7 @@ export const EditOrganization = ({match}) => {
     return (
         <div>
             <h1>Edit {orgName}</h1>
+            {orgId && <h2>id: {orgId}</h2>}
             <Form
                 schema={EditOrgSchema}
                 uiSchema={UIschema}
