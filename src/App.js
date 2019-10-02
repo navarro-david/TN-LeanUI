@@ -11,8 +11,8 @@ const App = () => {
           <div className="App">
             <Switch>
                 <Route path="/" exact component={Page.Index} />
-                <Route path="/organization" component={Page.EditOrganization} />
                 <Route path="/add-organization" exact component={Page.AddOrganization} />
+                <Route path="/organization/:orgName" component={Page.EditOrganization} />
             </Switch>
           </div>
         </Router>

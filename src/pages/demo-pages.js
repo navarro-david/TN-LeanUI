@@ -12,8 +12,25 @@ const JSONschema = require("../jsonUI/organization/JSONSchema.json");
 const UIschema = require("../json/UIschema.json");
 
 const AddOrgSchema = require('../jsonUI/organization/AddOrgSchema.json')
+const EditOrgSchema = require('../jsonUI/organization/EditOrgSchema.json')
 
 export const Index = withRouter(({ history }) => {
+
+    // const url = 'http://pf0i78px/api/organization';
+
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
+    // async function fetchUrl() {
+    //   const response = await fetch(url);
+    //   const json = await response.json();
+    //   setData(json);
+    //   setLoading(false);
+    // }
+    // useEffect(() => {
+    //   fetchUrl();
+    // }, []);
+
+    // Dummy Data
     const data = [
         {
             name: "ACME Fleet",
@@ -64,8 +81,10 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = () => {
+export const EditOrganization = ({match, location}) => {
+    const orgName = match.params.orgName;
 
+    console.log('test', orgName)
     const [isSending, setIsSending] = useState(false)
 
     // Place API call to add to API here
@@ -84,8 +103,9 @@ export const EditOrganization = () => {
 
     return (
         <div>
+            <h1>Edit {orgName}</h1>
             <Form
-                schema={JSONschema}
+                schema={EditOrgSchema}
                 uiSchema={UIschema}
                 onSubmit={type => handleOnSubmit(type)}
             />
