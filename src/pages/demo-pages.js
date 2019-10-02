@@ -33,7 +33,7 @@ export const Index = withRouter(({ history }) => {
     const data1 = [
         {
             name: "ACME Fleet",
-            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F", // Added organizationID that can be used in URLs on EditOrganization page
             description: "ACME's Fleet",
             sapId: "SAP2323455",
             salesforceId: "SFID344",
@@ -47,7 +47,7 @@ export const Index = withRouter(({ history }) => {
         },
         {
             name: "Marvel Fleet 2",
-            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F", // Added organizationID that can be used in URLs on EditOrganization page
             description: "Marvel's Fleet",
             sapId: "SAP223433455",
             salesforceId: "SFID344533",
@@ -87,11 +87,11 @@ export const EditOrganization = ({match, location}, props) => {
     const orgId = location.state.organizationId;
     const [formData, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isSending, setIsSending] = useState(false);
 
     const url = 'http://api.inno191.com/api/organization';
     // const geturl = 'http://api.inno191.com/api/organization/90111EA7-694E-4730-979D-2289FA49555F'; //TODO: id hardcoded
-    const geturl = `http://api.inno191.com/api/organization/${orgId}`; //TODO: id hardcoded ()
-    const [isSending, setIsSending] = useState(false);
+    const geturl = `http://api.inno191.com/api/organization/${orgId}`; // Now the id is not hardcoded
 
     async function fetchDataFromUrl() {
         console.log("fetchDataFromUrl Called");
@@ -103,27 +103,13 @@ export const EditOrganization = ({match, location}, props) => {
 
     useEffect(() => {
         fetchDataFromUrl();
-        // Just a test since I (David) can't connect to server
-        // const json = {//TODO: get data from form
-        //     organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
-        //     name: "ACME Fleet 3",
-        //     description: "ACME's Fleet",
-        //     sapId: "SAP2323455",
-        //     salesforceId: "SFID344",
-        //     address: {
-        //         addressLine1: "244 Acme Dr",
-        //         addressLine2: "Suite 3",
-        //         city: "Pleasanton",
-        //         state: "CA",
-        //         country: "USA"
-        //     }
-        // }
-        // setData(json);
-        // console.log('formData', formData)
     }, []);
 
     // Place API call to add to API here
     const handleOnSubmit = type => {
+        if(isSending) return;
+
+        setIsSending(true);
         const orgData = {//TODO: get data from form
             organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
             name: "ACME Fleet 3",
@@ -146,7 +132,7 @@ export const EditOrganization = ({match, location}, props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(orgData)
-        });
+        }).then(() => setIsSending(false));
     };   
 
     return (
