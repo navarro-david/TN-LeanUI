@@ -174,7 +174,7 @@ export const EditOrganization = withRouter(({match, location, history}) => {
     );
 });
 
-export const AddOrganization = () => {
+export const AddOrganization = withRouter(({history}) => {
     const [isSending, setIsSending] = useState(false)
 
     // Place API call to add to API here
@@ -188,16 +188,19 @@ export const AddOrganization = () => {
         setTimeout(() => {
             console.log('done fetching from API!')
             setIsSending(false)
+            history.push('/') // Use this method to go to index page
         }, 5000)
     };
 
     return (
         <div>
-            <Form
-                schema={AddOrgSchema}
-                uiSchema={UIschema}
-                onSubmit={type => handleOnSubmit(type)}
-            />
+            <div style={{width: '50%'}}>
+                <Form
+                    schema={AddOrgSchema}
+                    uiSchema={UIschema}
+                    onSubmit={type => handleOnSubmit(type)}
+                />
+            </div>
         </div>
     );
-};
+});
