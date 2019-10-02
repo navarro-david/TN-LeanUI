@@ -82,7 +82,7 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match, location}, props) => {
+export const EditOrganization = withRouter(({match, location, history}) => {
     const orgName = match.params.orgName;
     const orgId = location.state.organizationId;
     const [formData, setData] = useState([]);
@@ -103,14 +103,32 @@ export const EditOrganization = ({match, location}, props) => {
 
     useEffect(() => {
         fetchDataFromUrl();
+        const orgData = {
+            //TODO: get data from form
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
+            name: "ACME Fleet 3",
+            description: "ACME's Fleet",
+            sapId: "SAP2323455",
+            salesforceId: "SFID344",
+            address: {
+                addressLine1: "244 Acme Dr",
+                addressLine2: "Suite 3",
+                city: "Pleasanton",
+                state: "CA",
+                country: "USA"
+            }
+        }
+        setData(orgData)
     }, []);
 
     // Place API call to add to API here
     const handleOnSubmit = type => {
+        
         if(isSending) return;
-
         setIsSending(true);
-        const orgData = {//TODO: get data from form
+        
+        const orgData = {
+            //TODO: get data from form
             organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
             name: "ACME Fleet 3",
             description: "ACME's Fleet",
@@ -132,21 +150,29 @@ export const EditOrganization = ({match, location}, props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(orgData)
-        }).then(() => setIsSending(false));
+        }).then(() => {
+            setIsSending(false)
+            history.push('/')          
+        });
+        // history.push('/') // Uncomment if not connected to the server
     };   
 
     return (
         <div>
             <h1>{orgName}</h1>
-            <Form
-                schema={EditOrgSchema}
-                uiSchema={UIschema}
-                onSubmit={type => handleOnSubmit(type)}
-                formData={formData}
-            />
+            <div style={{
+                width: '50%'
+            }}>
+                <Form
+                    schema={EditOrgSchema}
+                    uiSchema={UIschema}
+                    onSubmit={type => handleOnSubmit(type)}
+                    formData={formData}
+                />
+            </div>
         </div>
     );
-};
+});
 
 export const AddOrganization = () => {
     const [isSending, setIsSending] = useState(false)
