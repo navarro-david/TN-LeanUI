@@ -81,7 +81,7 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match, location}) => {
+export const EditOrganization = ({match}) => {
     const orgName = match.params.orgName;
 
     console.log('test', orgName)
