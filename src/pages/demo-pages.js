@@ -33,6 +33,7 @@ export const Index = withRouter(({ history }) => {
     const data1 = [
         {
             name: "ACME Fleet",
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
             description: "ACME's Fleet",
             sapId: "SAP2323455",
             salesforceId: "SFID344",
@@ -46,6 +47,7 @@ export const Index = withRouter(({ history }) => {
         },
         {
             name: "Marvel Fleet 2",
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
             description: "Marvel's Fleet",
             sapId: "SAP223433455",
             salesforceId: "SFID344533",
@@ -63,7 +65,7 @@ export const Index = withRouter(({ history }) => {
         <div>
             <h1>Organizations</h1>
             <p>Modify or add new Organizations</p>
-            <OrgGrid data={data} />
+            <OrgGrid data={data1} />
             <div style={{
                 display: 'flex',
                 width: '100%',
@@ -80,19 +82,23 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match}, props) => {
+export const EditOrganization = ({match, location}, props) => {
     const orgName = match.params.orgName;
+    const orgId = location.state.organizationId;
     const [formData, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const url = 'http://api.inno191.com/api/organization';
-    const geturl = 'http://api.inno191.com/api/organization/90111EA7-694E-4730-979D-2289FA49555F'; //TODO: id hardcoded
+    // const geturl = 'http://api.inno191.com/api/organization/90111EA7-694E-4730-979D-2289FA49555F'; //TODO: id hardcoded
+    const geturl = `http://api.inno191.com/api/organization/${orgId}`; //TODO: id hardcoded ()
     const [isSending, setIsSending] = useState(false);
 
     async function fetchDataFromUrl() {
+        if(loading) return;
+        console.log("fetchDataFromUrl Called");
+        setLoading(true)
         const response = await fetch(geturl);
         const json = await response.json();
-        console.log("fetchDataFromUrl Called");
         setData(json);
         setLoading(false);
     }
