@@ -108,7 +108,7 @@ export const EditOrganization = ({match, location}, props) => {
     // Place API call to add to API here
     const handleOnSubmit = type => {
         if(isSending) return;
-
+        
         setIsSending(true);
         const orgData = {//TODO: get data from form
             organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
@@ -131,7 +131,7 @@ export const EditOrganization = ({match, location}, props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(orgData)
+            body: JSON.stringify(type.formData)
         }).then(() => setIsSending(false));
     };   
 
