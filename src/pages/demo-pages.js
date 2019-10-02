@@ -15,23 +15,22 @@ const AddOrgSchema = require('../jsonUI/organization/AddOrgSchema.json')
 const EditOrgSchema = require('../jsonUI/organization/EditOrgSchema.json')
 
 export const Index = withRouter(({ history }) => {
+    const url = 'http://api.inno191.com/api/organization';
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // const url = 'http://pf0i78px/api/organization';
+    async function fetchUrl() {
+      const response = await fetch(url);
+      const json = await response.json();
+      setData(json);
+      setLoading(false);
+    }
+    useEffect(() => {
+      fetchUrl();
+    }, []);
 
-    // const [data, setData] = useState([]);
-    // const [loading, setLoading] = useState(true);
-    // async function fetchUrl() {
-    //   const response = await fetch(url);
-    //   const json = await response.json();
-    //   setData(json);
-    //   setLoading(false);
-    // }
-    // useEffect(() => {
-    //   fetchUrl();
-    // }, []);
-
-    // Dummy Data
-    const data = [
+    //Dummy Data
+    const data1 = [
         {
             name: "ACME Fleet",
             description: "ACME's Fleet",
@@ -81,25 +80,53 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match}) => {
+export const EditOrganization = ({match}, props) => {
     const orgName = match.params.orgName;
+    const [formData, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    console.log('test', orgName)
-    const [isSending, setIsSending] = useState(false)
+    const url = 'http://api.inno191.com/api/organization';
+    const geturl = 'http://api.inno191.com/api/organization/90111EA7-694E-4730-979D-2289FA49555F'; //TODO: id hardcoded
+    const [isSending, setIsSending] = useState(false);
+
+    async function fetchDataFromUrl() {
+        const response = await fetch(geturl);
+        const json = await response.json();
+        console.log("fetchDataFromUrl Called");
+        setData(json);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        fetchDataFromUrl();
+    }, []);
 
     // Place API call to add to API here
     const handleOnSubmit = type => {
-        console.log("Place API call here to push submitted data", type);
-        if(isSending) return;
-        setIsSending(true)
+        const orgData = {//TODO: get data from form
+            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
+            name: "ACME Fleet 3",
+            description: "ACME's Fleet",
+            sapId: "SAP2323455",
+            salesforceId: "SFID344",
+            address: {
+                addressLine1: "244 Acme Dr",
+                addressLine2: "Suite 3",
+                city: "Pleasanton",
+                state: "CA",
+                country: "USA"
+            }
+        };
 
-        // Dummy code
-        console.log('fetching from API...')
-        setTimeout(() => {
-            console.log('done fetching from API!')
-            setIsSending(false)
-        }, 5000)
-    };
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orgData)
+        });
+    };   
 
     return (
         <div>
@@ -108,13 +135,13 @@ export const EditOrganization = ({match}) => {
                 schema={EditOrgSchema}
                 uiSchema={UIschema}
                 onSubmit={type => handleOnSubmit(type)}
+                formData={formData}
             />
         </div>
     );
 };
 
 export const AddOrganization = () => {
-    
     const [isSending, setIsSending] = useState(false)
 
     // Place API call to add to API here
