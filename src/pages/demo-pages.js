@@ -29,43 +29,11 @@ export const Index = withRouter(({ history }) => {
       fetchUrl();
     }, []);
 
-    //Dummy Data
-    const data1 = [
-        {
-            name: "ACME Fleet",
-            organizationId: "90111EA7-694E-4730-979D-2289FA49555F", // Added organizationID that can be used in URLs on EditOrganization page
-            description: "ACME's Fleet",
-            sapId: "SAP2323455",
-            salesforceId: "SFID344",
-            address: {
-                addressLine1: "244 Acme Dr",
-                addressLine2: "Suite 3",
-                city: "Pleasanton",
-                state: "CA",
-                country: "USA"
-            }
-        },
-        {
-            name: "Marvel Fleet 2",
-            organizationId: "90111EA7-694E-4730-979D-2289FA49555F", // Added organizationID that can be used in URLs on EditOrganization page
-            description: "Marvel's Fleet",
-            sapId: "SAP223433455",
-            salesforceId: "SFID344533",
-            address: {
-                addressLine1: "244 Acme Dr",
-                addressLine2: "Suite 3",
-                city: "Pleasanton",
-                state: "CA",
-                country: "USA"
-            }
-        },
-    ];
-
     return (
         <div>
             <h1>Organizations</h1>
             <p>Modify or add new Organizations</p>
-            <OrgGrid data={data1} />
+            <OrgGrid data={data} />
             <div style={{
                 display: 'flex',
                 width: '100%',
@@ -82,7 +50,7 @@ export const Index = withRouter(({ history }) => {
     );
 })
 
-export const EditOrganization = ({match, location}, props) => {
+export const EditOrganization = withRouter(({match, location, history}) => {
     const orgName = match.params.orgName;
     const orgId = location.state.organizationId;
     const [formData, setData] = useState([]);
@@ -90,7 +58,6 @@ export const EditOrganization = ({match, location}, props) => {
     const [isSending, setIsSending] = useState(false);
 
     const url = 'http://api.inno191.com/api/organization';
-    // const geturl = 'http://api.inno191.com/api/organization/90111EA7-694E-4730-979D-2289FA49555F'; //TODO: id hardcoded
     const geturl = `http://api.inno191.com/api/organization/${orgId}`; // Now the id is not hardcoded
 
     async function fetchDataFromUrl() {
@@ -105,26 +72,9 @@ export const EditOrganization = ({match, location}, props) => {
         fetchDataFromUrl();
     }, []);
 
-    // Place API call to add to API here
-    const handleOnSubmit = type => {
+    const handleOnSubmit = type => {        
         if(isSending) return;
-        
-        setIsSending(true);
-        const orgData = {//TODO: get data from form
-            organizationId: "90111EA7-694E-4730-979D-2289FA49555F",
-            name: "ACME Fleet 3",
-            description: "ACME's Fleet",
-            sapId: "SAP2323455",
-            salesforceId: "SFID344",
-            address: {
-                addressLine1: "244 Acme Dr",
-                addressLine2: "Suite 3",
-                city: "Pleasanton",
-                state: "CA",
-                country: "USA"
-            }
-        };
-
+        setIsSending(true);      
         fetch(url, {
             method: 'POST',
             headers: {
@@ -132,23 +82,30 @@ export const EditOrganization = ({match, location}, props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(type.formData)
-        }).then(() => setIsSending(false));
+        }).then(() => {
+            setIsSending(false)
+            history.push('/')          
+        });
     };   
 
     return (
         <div>
             <h1>{orgName}</h1>
-            <Form
-                schema={EditOrgSchema}
-                uiSchema={UIschema}
-                onSubmit={type => handleOnSubmit(type)}
-                formData={formData}
-            />
+            <div style={{
+                width: '50%'
+            }}>
+                <Form
+                    schema={EditOrgSchema}
+                    uiSchema={UIschema}
+                    onSubmit={type => handleOnSubmit(type)}
+                    formData={formData}
+                />
+            </div>
         </div>
     );
-};
+});
 
-export const AddOrganization = () => {
+export const AddOrganization = withRouter(({history}) => {
     const [isSending, setIsSending] = useState(false)
 
     // Place API call to add to API here
@@ -162,16 +119,19 @@ export const AddOrganization = () => {
         setTimeout(() => {
             console.log('done fetching from API!')
             setIsSending(false)
+            history.push('/') // Use this method to go to index page
         }, 5000)
     };
 
     return (
         <div>
-            <Form
-                schema={AddOrgSchema}
-                uiSchema={UIschema}
-                onSubmit={type => handleOnSubmit(type)}
-            />
+            <div style={{width: '50%'}}>
+                <Form
+                    schema={AddOrgSchema}
+                    uiSchema={UIschema}
+                    onSubmit={type => handleOnSubmit(type)}
+                />
+            </div>
         </div>
     );
-};
+});

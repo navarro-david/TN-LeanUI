@@ -40,7 +40,7 @@ const OrgGrid = withRouter((props) => {
                                 onClick={() =>
                                     props.history.push({
                                         pathname: `/organization/${row.name}`,
-                                        state: { organizationId: `${row.organizationId}` }
+                                        state: { organizationId: `${row.organizationID}` }
                                     })
                                 }
                                 color="primary"
